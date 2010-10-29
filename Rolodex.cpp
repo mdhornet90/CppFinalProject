@@ -21,9 +21,18 @@ bool lastSort ( Card first, Card second )
 }
 void Rolodex::cardAdd(Card obj)
 {
+	Card temp;
+	temp = *roloit;
+	roloit = rolo.begin();
     rolo.insert(rolo.begin(), obj);
     rolo.sort(lastSort);
-    search(obj.getLast());
+	while (roloit != rolo.end())
+	{
+		if( !obj.getLast().compare(temp.getLast()))
+			return;
+		else
+			roloit++;
+	}
 }
 
 Card Rolodex::cardRemove()
