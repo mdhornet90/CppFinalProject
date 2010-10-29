@@ -68,7 +68,7 @@ void Rolodex::search(string who)
     }
 }
 
-void Rolodex::show(ostream os)
+void Rolodex::show(ostream& os)
 {
     list< Card >::iterator temp = roloit;
     Card tempit = *roloit;

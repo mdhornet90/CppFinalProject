@@ -14,7 +14,7 @@ class Rolodex
         Card cardRemove();
         Card getCurrentCard();
         void search(string who);
-        void show(ostream os);
+        void show(ostream& os);
     private:
         list< Card > rolo;
         list< Card >::iterator roloit;

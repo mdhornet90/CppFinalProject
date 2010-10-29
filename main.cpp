@@ -3,7 +3,7 @@
 #include <iostream>
 using namespace std;
 
-void listElem(Rolodex* temp)
+void listElem(Rolodex temp)
 {
     temp.show(cout);
 }
