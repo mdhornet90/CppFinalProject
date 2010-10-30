@@ -1,6 +1,7 @@
 #include "Card.h"
 #include "Rolodex.h"
 #include <iostream>
+#include <cstring>
 using namespace std;
 
 void listElem(Rolodex temp)
@@ -23,6 +24,19 @@ void search(Rolodex temp)
 		temp.getCurrentCard().print(cout);
 	else
 		return;
+}
+
+void modify(Rolodex temp)
+{
+	view(temp);
+	string answer;
+	while ( 1 )
+	{
+		cout << "Please enter the field you want to modify (First Name, Last Name, Occupation, Address, or Phone): ";
+		cin >> answer;
+		if ( !strcasecmp(answer, "first name") )
+			roloit
+	}
 }
 
 int main(void)
