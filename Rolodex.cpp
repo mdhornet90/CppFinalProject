@@ -72,12 +72,15 @@ bool Rolodex::search(string who)
             roloit++;
     }
 	for ( roloit = rolo.begin(); roloit != rolo.end(); roloit++ )
-		for ( i = 0; tolower(roloit->getLast[0]) > tolower(who[0]); i++ )
+		for ( i = 0; tolower(roloit->getLast()[0]) > tolower(who[0]); i++ )
 			if ( roloit->getLast()[i] < who[i])
 				break;
 			else if (roloit->getLast()[i] == who[i]);
 			else if (roloit->getLast()[i] > who[i] && !roloit->getLast()[0] )
 				return true;
+    
+	cout << "Name not found: " << who << endl << endl;
+	return false;
 				
 }
 
