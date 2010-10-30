@@ -61,6 +61,7 @@ Card Rolodex::flip()
 
 bool Rolodex::search(string who)
 {
+	int i;
 	list< Card >::iterator tempit = roloit;
     roloit = rolo.begin();
     while ( roloit != rolo.end() )
@@ -71,12 +72,13 @@ bool Rolodex::search(string who)
             roloit++;
     }
 	for ( roloit = rolo.begin(); roloit != rolo.end(); roloit++ )
-		if ( roloit->getLast()[0] == who[0] )
-			return true;
-	
-	cout << "\nCould not find: " << who << endl;
-	roloit = tempit;
-	return false;
+		for ( i = 0; tolower(roloit->getLast[0]) > tolower(who[0]); i++ )
+			if ( roloit->getLast()[i] < who[i])
+				break;
+			else if (roloit->getLast()[i] == who[i]);
+			else if (roloit->getLast()[i] > who[i] && !roloit->getLast()[0] )
+				return true;
+				
 }
 
 void Rolodex::show(ostream& os)
