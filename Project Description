@@ -1,0 +1,45 @@
+Project - Rolodex
+
+Necessary skills: STL container classes, iterators, stream I/O
+
+Description
+
+This goal of this project is to build an information manager similar to a rolodex (see http://en.wikipedia.org/wiki/Rolodex). A physical rolodex is made up of cards arranged in alphabetical order by [Last Name, First Name]. Each card contains some information, usually name, address, phone number and type of business (why the person is in the rolodex). The physical mechanism of using a rolodex is turning the group of cards and flipping through them. When the last card is read, the rolodex is then at the start of the list since a rolodex is built on a circular track.
+
+Provide the following interactive commands in main() to work with your rolodex:
+
+list - displays all the cards in the rolodex, in alphabetical order from beginning to end.
+view - displays the card at the current position.
+flip - updates the current position to the next card, and displays it. Flipping past the last card wraps around to the first card.
+search - finds and displays a card, and makes it the current position in the rolodex. This command prompts for the last name  for searching. If a matching card is found, it is displayed and is set as the current position. If no matching card is found,  the card that immediately follows the lookup name is displayed and set as the current position (e.g. if "H" is entered as the last name, the first card with a last name following "H" in alphabetical order is displayed). If there is no following card, displays "Couldn't find: name" and the current position remains unchanged.
+add - adds a new card to the rolodex. Prompts for each field value, reads it, and enters the new card in the correct position in the rolodex (based on alphabetical order).  The new card is set as the current position.
+remove - removes the card at the current position.  It displays the card and prompts for a confirmation for removal. The following card is set as the current position.
+modify - updates the card at the current position. Enters a mode that requests the field to be updated (e.g. phone #), displays the existing value and prompts for the new value, reads it, and updates the card. Continues prompting for additional changes until all changes are done (e.g. a 0 is entered for the field # to change). If the last name is changed, the card must be moved to the correct position in the rolodex (and is set as the current position).
+quit - exits the program.
+Design Notes
+
+A Card class is used to represent a single Rolodex card. This class has member functions to allow getting and setting of data values (e.g. first name), and a display function that knows how to display the card on the supplied ostream parameter.  Data members are std::string objects. This class does not know about Rolodex functionality, it just encapsulates a single card's information.
+
+The Rolodex class manages a collection of Card objects. It must have a data member that is an STL container class to hold the set of rolodex Card objects (i.e. not a C/C++ array), and an associated STL iterator object to reference the current Card. The container used must be able to handle the case of duplicate names (e.g.  two of Jim Smith, etc).  The Rolodex member functions just manage the collection of Cards, and may have parameters or return values that are a Card object. The Rolodex class does not have code to read data for new cards, get updated data for existing Cards, or printing Cards. Data input is done by code in main() and Card objects are passed into and out of the Rolodex object. Displaying cards is done by the Rolodex code calling the Card's display member function, passing an ostream for it to display on. Some of your Rolodex member functions might include the following :
+
+add(...) takes a Card object as a parameter, adds it to the Rolodex collection (in the appropriate spot by last name), and sets it as the 'current card' in the Rolodex (by setting the internal iterator).
+remove() removes the current card from the Rolodex, returns it, and makes the following card the 'current' card. If the last card in the container is removed, the 'current' card should be set to the first card in the container (i.e. wraps around).
+getCurrentCard() returns the current Card (actually, a copy of it).
+flip() returns the next Card in the Rolodex, and updates the current card position.
+search(...) takes a search parameter,  finds the requested card and sets it as the current card.
+show(...) takes an ostream as a parameter, iterates through all the cards from beginning to end, invoking each card's show() method, and passing the ostream parameter. The Rolodex show() doesn't do any actual output - it just iterates through the collection and requests each card to display its contents by calling its show() member function. The current card remains unchanged.
+The main() function creates and loads the Rolodex object with the starting data (by adding a series of Cards to it), and then accepts interactive requests that act on the Rolodex. For each interactive command, one or more member functions are invoked on the Rolodex from main(). For example, you might implement the interactive commands as follows:
+
+'list' can call Rolodex::show(...) to display the entire rolodex
+'view' can call getCurrentCard(), then call Card::show(...) on the returned Card.
+'flip' can call flip() to get the next Card, then call Card::show(...) on it.
+'add' prompts for all the info for a new Card, creates a new Card object with the information, then calls Rolodex::add(...) to add the new Card to the rolodex.
+'remove' gets the current Card from the Rolodex, calls Card::show(...) to display it as part of the confirmation prompt, and if 'yes' is entered, it calls remove() to remove the Card from the rolodex.
+'search' requests the name to search for, then calls search(...).
+'modify' gets the current Card, calls Card::show(...) to display it, prompts for the field to change, gets the new value from the user, updates the local Card object, and repeats until no more changes. The current (old) Card can then be removed by calling remove(), and the updated Card added by calling add(...). This will put the modified Card into the correct position in the rolodex (ie. the last name could have been changed), and set it as the current Card.
+Note that some of the command processing code in main() requires several steps (like the add or modify commands) and may invoke several member functions on the Rolodex to complete a command. This keeps the Rolodex implementation *minimal*, and the Rolodex class doesn't do all the prompting, input, output, etc. The Rolodex class has basic functionality to manage the collection of Rolodex cards (which is a better design).  The Rolodex class just maintains the collection of cards (in order), and provides functionality to add, remove, search for and get cards, list the collection of cards, maintains a 'current' card position, and can move the position to the next card. Specific output formatting, data entry, etc., is outside of the Rolodex class. When starting a class design, keep it as small as possible - it's always easier to add a new member function when there's a proven need, vs. trying to remove functions after the class is in use..
+
+The Rolodex class must be able to handle the cases of adding or removing a card to the beginning or end of the collection, and 'wrapping around' from the end to the beginning of the collection when moving forward from the last card to the first card.
+
+The Standard Library std::string class should be used for the character information (no char* or char arrays).
+
