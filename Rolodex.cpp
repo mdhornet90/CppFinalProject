@@ -73,7 +73,7 @@ bool Rolodex::search(string who)
     }
 	for ( roloit = rolo.begin(); roloit != rolo.end(); roloit++ )
 		for ( i = 0; tolower(roloit->getLast()[0]) > tolower(who[0]); i++ )
-			if ( roloit->getLast()[i] < who[i])
+			if ( tolower(roloit->getLast()[i]) < tolower(who[i]))
 				break;
 			else if (roloit->getLast()[i] == who[i]);
 			else if (roloit->getLast()[i] > who[i] && !roloit->getLast()[0] )
