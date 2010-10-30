@@ -8,6 +8,23 @@ void listElem(Rolodex temp)
     temp.show(cout);
 }
 
+void view(Rolodex temp)
+{
+	temp.getCurrentCard().print(cout);
+}
+
+void search(Rolodex temp)
+{
+	string who;
+	
+	cout << "\nEnter the last name of the person you are looking for: ";
+	cin >> who;
+	if (temp.search(who))
+		temp.getCurrentCard().print(cout);
+	else
+		return;
+}
+
 int main(void)
 {
     Rolodex mainrolo;
@@ -36,6 +53,7 @@ int main(void)
     mainrolo.cardAdd(card10);
     
     listElem(mainrolo);
+    search(mainrolo);
     
-    return 0;
+	return 0;
 }

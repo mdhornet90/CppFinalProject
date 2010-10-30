@@ -1,34 +1,34 @@
 #include "Rolodex.h"
 #include "Card.h"
 #include <cctype>
+#include <algorithm>
 using namespace std;
 
 bool lastSort ( Card first, Card second )
 {
-    string string1 = first.getLast(), string2 = second.getLast();
-    int i = 0;
-    while ( (i < string1.length()) && (i < string2.length()) )
-    {
-        if ( isalpha(string1[i]) < isalpha(string2[i]) )
-            return true;
-        else if ( isalpha(string1[i]) > isalpha(string2[i]) )
-            return false;
-    }
-    if (string1.length()<string2.length()) 
-        return true;
-    else 
-        return false;
+    string first2 = first.getLast(), second2 = second.getLast();
+	int i = 0;
+	while ( (i<first2.length()) && (i<second2.length()) )
+	{
+		if (tolower(first2[i])<tolower(second2[i])) 
+			return true;
+		else if (tolower(first2[i])>tolower(second2[i])) 
+			return false;
+		++i;
+	}
+	if (first2.length() < second2.length()) 
+		return true;
+	else 
+		return false;
 }
 void Rolodex::cardAdd(Card obj)
 {
-	Card temp;
-	temp = *roloit;
 	roloit = rolo.begin();
     rolo.insert(rolo.begin(), obj);
-    rolo.sort(lastSort);
+	rolo.sort(lastSort);
 	while (roloit != rolo.end())
 	{
-		if( !obj.getLast().compare(temp.getLast()))
+		if( !obj.getLast().compare(roloit->getLast()))
 			return;
 		else
 			roloit++;
@@ -50,39 +50,41 @@ Card Rolodex::cardRemove()
 
 Card Rolodex::getCurrentCard()
 {
-    Card temp = *roloit;
-    return temp;
+    return *roloit;
 }
 
-void Rolodex::search(string who)
+Card Rolodex::flip()
 {
-    Card temp;
-    list< Card >::iterator tempit = roloit;
+	roloit++;
+	return *roloit;
+}
+
+bool Rolodex::search(string who)
+{
+	list< Card >::iterator tempit = roloit;
     roloit = rolo.begin();
     while ( roloit != rolo.end() )
     {
-        temp = *roloit;
-        if ( !temp.getLast().compare(who) )
-        {
-            roloit = roloit;
-            return;
-        }
+        if ( !roloit->getLast().compare(who) )
+            return true;
         else
             roloit++;
     }
-    if ( temp.getLast().compare(who) )
-    {
-        cout << "Name not found, please retype and try again." << endl;
-        roloit = tempit;
-    }
+	for ( roloit = rolo.begin(); roloit != rolo.end(); roloit++ )
+		if ( roloit->getLast()[0] == who[0] )
+			return true;
+	
+	cout << "\nCould not find: " << who << endl;
+	roloit = tempit;
+	return false;
 }
 
 void Rolodex::show(ostream& os)
 {
     list< Card >::iterator temp = roloit;
-    Card tempit = *roloit;
+	
     for ( roloit = rolo.begin(); roloit != rolo.end(); roloit++ )
-        tempit.print(os);
+        roloit->print(os);
         
     roloit = temp;
 }

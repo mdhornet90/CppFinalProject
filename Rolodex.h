@@ -13,7 +13,8 @@ class Rolodex
         void cardAdd(Card obj);
         Card cardRemove();
         Card getCurrentCard();
-        void search(string who);
+		Card flip();
+        bool search(string who);
         void show(ostream& os);
     private:
         list< Card > rolo;
